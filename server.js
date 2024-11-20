@@ -30,7 +30,7 @@ const io = new Server(server, {
   },
 });
 
-const connections = io.of("/");
+// const connections = io.of("/");
 
 let worker;
 let rooms = {}; // { roomName1: { Router, rooms: [ sicketId1, ... ] }, ...}
@@ -74,7 +74,7 @@ const mediaCodecs = [
   },
 ];
 
-connections.on("connection", async (socket) => {
+io.on("connection", async (socket) => {
   console.log("connection-success", socket.id);
   socket.emit("connection-success", {
     socketId: socket.id,
