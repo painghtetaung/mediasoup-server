@@ -1,32 +1,24 @@
 import "dotenv/config";
 import express from "express";
-// import fs from "fs";
-// import path from "path";
 import http from "http";
 import mediasoup from "mediasoup";
 import { Server } from "socket.io";
-// const __dirname = path.resolve();
+import cors from "cors";
+
 const app = express();
 
-// const options = {
-//   key: fs.readFileSync(path.join(__dirname, "cert.key")),
-//   cert: fs.readFileSync(path.join(__dirname, "cert.crt")),
-// };
+// Add CORS middleware for Express
+app.use(cors());
 
 const server = http.createServer(app);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
-server.listen(process.env.PORT || 8000, () =>
-  console.log("server is running on port 8000")
-);
-
+// Update Socket.IO CORS configuration to be more permissive
 const io = new Server(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   },
 });
 
