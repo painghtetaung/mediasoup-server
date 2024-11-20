@@ -30,7 +30,7 @@ const io = new Server(server, {
   },
 });
 
-const connections = io.of("/mediasoup");
+const connections = io.of("/");
 
 let worker;
 let rooms = {}; // { roomName1: { Router, rooms: [ sicketId1, ... ] }, ...}
