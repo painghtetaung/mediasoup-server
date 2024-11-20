@@ -19,10 +19,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-server.listen(process.env.PORT || 8000, () =>
-  console.log("server is running on port 8000")
-);
-
 const io = new Server(server, {
   cors: {
     origin: ["*", "http://localhost:5173"],
@@ -429,6 +425,10 @@ const createWebRtcTransport = async (router) => {
     }
   });
 };
+
+server.listen(process.env.PORT || 8000, () =>
+  console.log("server is running on port 8000")
+);
 
 // const users = {};
 
