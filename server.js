@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 server.listen(process.env.PORT || 8000, () =>
-  console.log("server is running on port 8000"),
+  console.log("server is running on port 8000")
 );
 
 const io = new Server(server, {
@@ -106,7 +106,7 @@ connections.on("connection", async (socket) => {
         rooms[roomId] = {
           router: rooms[roomId].router,
           peers: rooms[roomId].peers.filter(
-            (socketId) => socketId !== socket.id,
+            (socketId) => socketId !== socket.id
           ),
         };
       }
@@ -188,7 +188,7 @@ connections.on("connection", async (socket) => {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   });
 
@@ -243,7 +243,7 @@ connections.on("connection", async (socket) => {
 
   const getTransport = (socketId) => {
     const [producerTransport] = transports.filter(
-      (transport) => transport.socketId === socketId && !transport.consumer,
+      (transport) => transport.socketId === socketId && !transport.consumer
     );
     return producerTransport.transport;
   };
@@ -289,7 +289,7 @@ connections.on("connection", async (socket) => {
         id: producer.id,
         producersExist: producers.length > 1 ? true : false,
       });
-    },
+    }
   );
 
   socket.on(
@@ -302,21 +302,21 @@ connections.on("connection", async (socket) => {
       const consumer = transports.find(
         (transport) =>
           transport.consumer &&
-          transport.transport.id == serverConsumerTransportId,
+          transport.transport.id == serverConsumerTransportId
       );
       if (consumer && consumer.transport) {
         await consumer.transport.connect({ dtlsParameters });
       } else {
         console.log("Consumer or consumer transport not found");
       }
-    },
+    }
   );
 
   socket.on(
     "consume",
     async (
       { rtpCapabilities, remoteProducerId, serverConsumerTransportId },
-      callback,
+      callback
     ) => {
       try {
         const { roomId } = peers[socket.id];
@@ -324,7 +324,7 @@ connections.on("connection", async (socket) => {
         let consumerTransport = transports.find(
           (transport) =>
             transport.consumer &&
-            transport.transport.id === serverConsumerTransportId,
+            transport.transport.id === serverConsumerTransportId
         ).transport;
 
         if (
@@ -344,11 +344,11 @@ connections.on("connection", async (socket) => {
             socket.emit("producer-closed", { remoteProducerId });
             consumerTransport.close([]);
             transports = transports.filter(
-              (transport) => transport.transport.id !== consumerTransport.id,
+              (transport) => transport.transport.id !== consumerTransport.id
             );
             consumer.close();
             consumers = consumers.filter(
-              (consumer) => consumer.consumer.id !== consumer.id,
+              (consumer) => consumer.consumer.id !== consumer.id
             );
           });
 
@@ -371,13 +371,13 @@ connections.on("connection", async (socket) => {
           },
         });
       }
-    },
+    }
   );
 
   socket.on("consumer-resume", async ({ serverConsumerId }) => {
     console.log("consumer resume");
     const { consumer } = consumers.find(
-      (consumer) => consumer.consumer.id === serverConsumerId,
+      (consumer) => consumer.consumer.id === serverConsumerId
     );
     await consumer.resume();
   });
@@ -407,7 +407,7 @@ const createWebRtcTransport = async (router) => {
         preferUdp: true,
       };
       let transport = await router.createWebRtcTransport(
-        webRtcTransport_options,
+        webRtcTransport_options
       );
 
       transport.on("dtlsstatechange", async (dtlsState) => {
@@ -482,3 +482,4 @@ const createWebRtcTransport = async (router) => {
 // server.listen(process.env.PORT || 8000, () =>
 //   console.log("server is running on port 8000"),
 // );
+export default app;
