@@ -19,10 +19,10 @@ const io = new Server(server, {
     origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
-    transports: ['websocket', 'polling']
+    transports: ["websocket", "polling"],
   },
   allowEIO3: true,
-  path: "/socket.io/"
+  path: "/socket.io/",
 });
 
 app.get("/", (req, res) => {
@@ -402,11 +402,12 @@ const createWebRtcTransport = async (router) => {
       const webRtcTransport_options = {
         listenIps: [
           {
-            ip: process.env.NODE_ENV === 'production' 
-              ? '0.0.0.0'  // Use this for production
-              : '127.0.0.1', // Use this for local development
-            announcedIp: process.env.ANNOUNCED_IP // You'll need to set this in your env variables
-          }
+            ip:
+              process.env.NODE_ENV === "production"
+                ? "0.0.0.0" // Use this for production
+                : "127.0.0.1", // Use this for local development
+            announcedIp: process.env.ANNOUNCED_IP, // You'll need to set this in your env variables
+          },
         ],
         enableUdp: true,
         enableTcp: true,
@@ -436,7 +437,7 @@ const createWebRtcTransport = async (router) => {
   });
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   server.listen(process.env.PORT || 8000, () =>
     console.log("server is running on port 8000")
   );
@@ -494,12 +495,14 @@ if (process.env.NODE_ENV !== 'production') {
 // server.listen(process.env.PORT || 8000, () =>
 //   console.log("server is running on port 8000"),
 // );
-export default async function handler(req, res) {
-  if (!res.socket.server.io) {
-    console.log('*First use, starting socket.io');
-    res.socket.server.io = io;
-  } else {
-    console.log('socket.io already running');
-  }
-  res.end();
-}
+// export default async function handler(req, res) {
+//   if (!res.socket.server.io) {
+//     console.log('*First use, starting socket.io');
+//     res.socket.server.io = io;
+//   } else {
+//     console.log('socket.io already running');
+//   }
+//   res.end();
+// }
+
+export default app;
