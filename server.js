@@ -400,7 +400,14 @@ const createWebRtcTransport = async (router) => {
   return new Promise(async (resolve, reject) => {
     try {
       const webRtcTransport_options = {
-        listenIps: [{ ip: "127.0.0.1" }],
+        listenIps: [
+          {
+            ip: process.env.NODE_ENV === 'production' 
+              ? '0.0.0.0'  // Use this for production
+              : '127.0.0.1', // Use this for local development
+            announcedIp: process.env.ANNOUNCED_IP // You'll need to set this in your env variables
+          }
+        ],
         enableUdp: true,
         enableTcp: true,
         preferUdp: true,
