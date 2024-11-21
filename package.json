@@ -14,8 +14,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
+    "express": "^4.x.x",
     "mediasoup": "^3.15.1",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.x.x",
+    "@vercel/node": "^x.x.x"
   }
 }

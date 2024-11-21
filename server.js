@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 // import fs from "fs";
 // import path from "path";
-import http from "http";
+import { createServer } from "http";
 import mediasoup from "mediasoup";
 import { Server } from "socket.io";
 // const __dirname = path.resolve();
@@ -13,13 +13,16 @@ const app = express();
 //   cert: fs.readFileSync(path.join(__dirname, "cert.crt")),
 // };
 
-const server = http.createServer(app);
+const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["*", "http://localhost:5173"],
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
+    transports: ['websocket', 'polling']
   },
+  allowEIO3: true,
+  path: "/socket.io/"
 });
 
 app.get("/", (req, res) => {
@@ -426,9 +429,11 @@ const createWebRtcTransport = async (router) => {
   });
 };
 
-server.listen(process.env.PORT || 8000, () =>
-  console.log("server is running on port 8000")
-);
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(process.env.PORT || 8000, () =>
+    console.log("server is running on port 8000")
+  );
+}
 
 // const users = {};
 
@@ -482,4 +487,12 @@ server.listen(process.env.PORT || 8000, () =>
 // server.listen(process.env.PORT || 8000, () =>
 //   console.log("server is running on port 8000"),
 // );
-export default app;
+export default async function handler(req, res) {
+  if (!res.socket.server.io) {
+    console.log('*First use, starting socket.io');
+    res.socket.server.io = io;
+  } else {
+    console.log('socket.io already running');
+  }
+  res.end();
+}
