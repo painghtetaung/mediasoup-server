@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "PROD=true nodemon server.js"
+    "start": "PROD=true node server.js"
   },
   "keywords": [],
   "author": "",
