@@ -7,7 +7,7 @@ import mediasoup from "mediasoup";
 import { Server } from "socket.io";
 // const __dirname = path.resolve();
 const app = express();
-mediasoup.enableDebug();
+// mediasoup.enableDebug();
 
 // const options = {
 //   key: fs.readFileSync(path.join(__dirname, "cert.key")),
