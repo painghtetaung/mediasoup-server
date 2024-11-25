@@ -7,6 +7,7 @@ import mediasoup from "mediasoup";
 import { Server } from "socket.io";
 // const __dirname = path.resolve();
 const app = express();
+mediasoup.enableDebug();
 
 // const options = {
 //   key: fs.readFileSync(path.join(__dirname, "cert.key")),
@@ -440,7 +441,6 @@ const createWebRtcTransport = async (router) => {
 server.listen(process.env.PORT || 8000, () =>
   console.log("server is running on port 8000")
 );
-
 // const users = {};
 
 // const socketToRoom = {};
